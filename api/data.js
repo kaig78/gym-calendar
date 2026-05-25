@@ -11,7 +11,7 @@ module.exports = async (req, res) => {
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   if (req.method === 'OPTIONS') return res.status(200).end();
 
-  const token  = process.env.NOTION_TOKEN;
+  const token  = process.env.NOTION_SECRET;
   const pageId = process.env.NOTION_PAGE_ID;
 
   // Graceful degradation: if not configured, return empty state
