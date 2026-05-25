@@ -15,44 +15,29 @@
   --line: rgba(31,42,46,0.12);
   --shadow: 0 18px 50px rgba(20,28,30,0.10);
   --accent: #2e7d5b;
-  --good: #ffc84d;
-  --rain: #7aa7d9;
+  --accent-soft: rgba(46,125,91,0.14);
+  --fat-color: #5c8fd8;
+  --fat-soft: rgba(92,143,216,0.14);
+  --warn-soft: rgba(227,157,45,0.16);
+  --good-soft: rgba(66,163,111,0.16);
   --weekend: #f7f3eb;
-  --person-1: #d95f6b;
-  --person-1-soft: #fde3e5;
-  --person-2: #5c8fd8;
-  --person-2-soft: #e3eefc;
-  --person-3: #42a36f;
-  --person-3-soft: #e0f4e9;
-  --person-4: #e39d2d;
-  --person-4-soft: #fceecf;
   --font-body: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --font-display: Georgia, "Times New Roman", serif;
 }
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #0f1418;
-    --bg-2: #121b17;
-    --surface: rgba(23,31,36,0.82);
-    --surface-strong: #18212a;
-    --text: #e9f0f4;
-    --muted: #8ca0ac;
-    --line: rgba(233,240,244,0.12);
-    --shadow: 0 18px 50px rgba(0,0,0,0.35);
-    --weekend: #161e18;
-    --person-1-soft: rgba(217,95,107,0.18);
-    --person-2-soft: rgba(92,143,216,0.18);
-    --person-3-soft: rgba(66,163,111,0.18);
-    --person-4-soft: rgba(227,157,45,0.18);
+@media(prefers-color-scheme:dark){
+  :root{
+    --bg:#0f1418;--bg-2:#121b17;
+    --surface:rgba(23,31,36,0.82);--surface-strong:#18212a;
+    --text:#e9f0f4;--muted:#8ca0ac;--line:rgba(233,240,244,0.12);
+    --shadow:0 18px 50px rgba(0,0,0,0.35);--weekend:#161e18;
+    --accent-soft:rgba(46,125,91,0.22);--fat-soft:rgba(92,143,216,0.22);
+    --good-soft:rgba(66,163,111,0.22);--warn-soft:rgba(227,157,45,0.22);
   }
 }
-
 *{box-sizing:border-box;}
 html{scroll-behavior:smooth;}
 body{
-  margin:0;min-height:100vh;
-  font-family:var(--font-body);color:var(--text);
+  margin:0;min-height:100vh;font-family:var(--font-body);color:var(--text);
   background:
     radial-gradient(circle at top left,rgba(255,208,153,0.35),transparent 38%),
     radial-gradient(circle at top right,rgba(149,194,255,0.28),transparent 32%),
@@ -62,290 +47,141 @@ button,input{font:inherit;}
 button{border:0;background:none;color:inherit;cursor:pointer;}
 input{border:0;outline:none;}
 
-.app{width:min(1480px,calc(100vw - 24px));margin:12px auto 40px;}
+.app{width:min(1200px,calc(100vw - 24px));margin:12px auto 40px;}
 
-/* ── HERO ── */
+/* HERO */
 .hero{
-  position:relative;overflow:hidden;
-  padding:28px 28px 24px;
+  position:relative;overflow:hidden;padding:28px 28px 24px;
   border:1px solid var(--line);border-radius:28px;
   background:linear-gradient(135deg,rgba(255,255,255,0.65),rgba(255,255,255,0.28));
   box-shadow:var(--shadow);backdrop-filter:blur(12px);
 }
-.hero::before,.hero::after{
-  content:"";position:absolute;border-radius:999px;pointer-events:none;
-}
-.hero::before{
-  width:240px;height:240px;right:-70px;top:-100px;
-  background:radial-gradient(circle,rgba(255,200,77,0.36),transparent 65%);
-}
-.hero::after{
-  width:280px;height:280px;left:-130px;bottom:-160px;
-  background:radial-gradient(circle,rgba(92,143,216,0.16),transparent 68%);
-}
-
-.eyebrow{
-  text-transform:uppercase;letter-spacing:0.16em;
-  color:var(--muted);font-size:12px;font-weight:700;
-}
-
-.title-row{
-  display:flex;flex-wrap:wrap;align-items:flex-end;
-  justify-content:space-between;gap:16px;margin-top:8px;
-}
-
-h1{
-  margin:0;font-family:var(--font-display);font-style:italic;
-  font-size:clamp(2.4rem,5vw,5.2rem);line-height:0.94;letter-spacing:-0.03em;
-}
-
-.subtitle{max-width:560px;margin:6px 0 0;color:var(--muted);font-size:15px;line-height:1.5;}
-
-.sync-badge{
-  display:inline-flex;align-items:center;gap:7px;
-  padding:9px 14px;border-radius:999px;font-size:12px;color:var(--muted);
-  background:var(--surface);border:1px solid var(--line);
-  box-shadow:0 4px 12px rgba(0,0,0,0.04);
-}
-.sync-dot{
-  width:7px;height:7px;border-radius:50%;background:var(--muted);
-  flex-shrink:0;transition:background 0.3s;
-}
-.sync-dot.syncing{background:var(--good);animation:pulse 1s infinite;}
+.hero::before,.hero::after{content:"";position:absolute;border-radius:999px;pointer-events:none;}
+.hero::before{width:240px;height:240px;right:-70px;top:-100px;background:radial-gradient(circle,rgba(255,200,77,0.36),transparent 65%);}
+.hero::after{width:280px;height:280px;left:-130px;bottom:-160px;background:radial-gradient(circle,rgba(92,143,216,0.16),transparent 68%);}
+.eyebrow{text-transform:uppercase;letter-spacing:0.16em;color:var(--muted);font-size:12px;font-weight:700;}
+.title-row{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px;margin-top:8px;}
+h1{margin:0;font-family:var(--font-display);font-style:italic;font-size:clamp(2.4rem,5vw,5.2rem);line-height:0.94;letter-spacing:-0.03em;}
+.subtitle{max-width:500px;margin:6px 0 0;color:var(--muted);font-size:15px;line-height:1.5;}
+.sync-badge{display:inline-flex;align-items:center;gap:7px;padding:9px 14px;border-radius:999px;font-size:12px;color:var(--muted);background:var(--surface);border:1px solid var(--line);}
+.sync-dot{width:7px;height:7px;border-radius:50%;background:var(--muted);flex-shrink:0;transition:background 0.3s;}
+.sync-dot.syncing{background:#e39d2d;animation:pulse 1s infinite;}
 .sync-dot.saved{background:var(--accent);}
-.sync-dot.error{background:var(--person-1);}
+.sync-dot.error{background:#d95f6b;}
 @keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.3;}}
+.legend{margin-top:16px;display:flex;flex-wrap:wrap;gap:8px;color:var(--muted);font-size:13px;}
+.legend-item{display:inline-flex;align-items:center;gap:7px;padding:7px 12px;border-radius:999px;background:rgba(255,255,255,0.38);border:1px solid var(--line);}
 
-.legend{
-  margin-top:18px;display:flex;flex-wrap:wrap;gap:8px;
-  color:var(--muted);font-size:13px;
-}
-.legend-item{
-  display:inline-flex;align-items:center;gap:7px;
-  padding:7px 12px;border-radius:999px;
-  background:rgba(255,255,255,0.38);border:1px solid var(--line);
-}
-.dot{width:10px;height:10px;border-radius:50%;display:inline-block;flex-shrink:0;}
-
-/* ── GOALS CARD ── */
+/* GOALS */
 .goals-card{
-  margin-top:18px;
-  border:1px solid var(--line);border-radius:26px;overflow:hidden;
+  margin-top:18px;border:1px solid var(--line);border-radius:26px;overflow:hidden;
   background:rgba(255,255,255,0.42);box-shadow:var(--shadow);backdrop-filter:blur(10px);
 }
 .goals-head{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:16px 22px;border-bottom:1px solid var(--line);
+  display:flex;align-items:center;gap:10px;padding:16px 24px;
+  border-bottom:1px solid var(--line);
   background:linear-gradient(180deg,rgba(255,255,255,0.28),transparent);
 }
-.goals-head-title strong{
-  font-family:var(--font-display);font-style:italic;font-size:1.3rem;
-}
-.goals-head-title small{display:block;color:var(--muted);font-size:13px;margin-top:2px;}
-
-.goals-table{
-  display:grid;
-  grid-template-columns: 44px 1fr 1fr 1fr;
-}
-.goals-col-h{
-  padding:9px 14px;
-  font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:0.1em;
-  color:var(--muted);border-bottom:1px solid var(--line);
-  background:rgba(255,255,255,0.2);
-}
-.goals-col-h:not(:first-child){border-left:1px solid var(--line);}
-.goals-col-h:first-child{text-align:center;}
-
-.goals-dot-cell{
-  display:flex;align-items:center;justify-content:center;
-  padding:10px 4px;border-bottom:1px solid var(--line);
-}
-.goals-data-cell{
-  padding:8px 12px;border-bottom:1px solid var(--line);border-left:1px solid var(--line);
-}
-.goals-person-row:last-child .goals-dot-cell,
-.goals-person-row:last-child .goals-data-cell{border-bottom:0;}
-
+.goals-head strong{font-family:var(--font-display);font-style:italic;font-size:1.3rem;}
+.goals-head small{color:var(--muted);font-size:13px;}
+.goals-body{display:flex;gap:20px;padding:20px 24px;flex-wrap:wrap;align-items:flex-start;}
+.goals-group{display:grid;gap:10px;}
+.goals-group-label{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);}
+.goals-row{display:flex;gap:10px;flex-wrap:wrap;}
+.goals-field{display:grid;gap:5px;}
+.goals-field label{font-size:11px;font-weight:700;color:var(--muted);}
 .goals-input{
-  width:100%;padding:7px 10px;
-  border-radius:9px;border:1px solid var(--line);
-  background:var(--surface-strong);color:var(--text);
-  font-size:14px;font-weight:700;
-  transition:border-color 0.15s,box-shadow 0.15s;
+  padding:8px 12px;border-radius:10px;border:1px solid var(--line);
+  background:var(--surface-strong);color:var(--text);font-size:14px;font-weight:700;
+  width:130px;transition:border-color 0.15s,box-shadow 0.15s;
 }
-.goals-input:focus{
-  border-color:var(--accent);
-  box-shadow:0 0 0 3px rgba(46,125,91,0.14);
-  outline:none;
-}
+.goals-input.wide{width:180px;}
+.goals-input:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft);outline:none;}
+.goals-divider{width:1px;background:var(--line);margin:0 4px;align-self:stretch;}
 
-/* ── CALENDAR ── */
+/* CHARTS */
+.charts-section{margin-top:18px;display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.chart-card{border:1px solid var(--line);border-radius:22px;overflow:hidden;background:rgba(255,255,255,0.42);box-shadow:var(--shadow);backdrop-filter:blur(10px);}
+.chart-head{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;border-bottom:1px solid var(--line);}
+.chart-head strong{font-family:var(--font-display);font-style:italic;font-size:1.1rem;}
+.chart-meta{display:flex;gap:12px;font-size:12px;color:var(--muted);}
+.chart-meta b{font-weight:800;}
+.chart-body{padding:12px 18px 16px;}
+.chart-empty{color:var(--muted);font-size:13px;text-align:center;padding:20px 0;margin:0;}
+
+/* CALENDAR */
 .calendar{margin-top:18px;display:grid;gap:18px;}
-
-.month{
-  overflow:hidden;border:1px solid var(--line);border-radius:26px;
-  background:rgba(255,255,255,0.40);box-shadow:var(--shadow);backdrop-filter:blur(10px);
-}
-.month-head{
-  display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;
-  gap:12px;padding:18px 20px 14px;border-bottom:1px solid var(--line);
-  background:linear-gradient(180deg,rgba(255,255,255,0.28),transparent);
-}
-.month-title strong{
-  font-family:var(--font-display);font-style:italic;font-size:1.75rem;line-height:1;
-}
+.month{overflow:hidden;border:1px solid var(--line);border-radius:26px;background:rgba(255,255,255,0.40);box-shadow:var(--shadow);backdrop-filter:blur(10px);}
+.month-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px;padding:18px 20px 14px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,rgba(255,255,255,0.28),transparent);}
+.month-title strong{font-family:var(--font-display);font-style:italic;font-size:1.75rem;line-height:1;}
 .month-title small{display:block;color:var(--muted);font-size:13px;margin-top:3px;}
 .month-stats{display:flex;flex-wrap:wrap;gap:8px;}
-.stat{
-  display:inline-flex;align-items:center;gap:7px;
-  padding:7px 12px;border-radius:999px;
-  border:1px solid var(--line);background:var(--surface);
-  font-size:13px;white-space:nowrap;
-}
+.stat{display:inline-flex;align-items:center;gap:7px;padding:7px 14px;border-radius:999px;border:1px solid var(--line);background:var(--surface);font-size:13px;white-space:nowrap;}
 .stat b{font-size:14px;}
-
 .scroll-x{overflow-x:auto;}
-
-.month-grid{min-width:1060px;}
-.week-header,.week-row{
-  display:grid;
-  grid-template-columns: 60px repeat(7,minmax(110px,1fr)) 14px 190px;
-}
-.week-header{
-  border-bottom:1px solid var(--line);
-  background:rgba(255,255,255,0.26);
-}
-.week-header div{
-  padding:10px 8px;text-align:center;
-  text-transform:uppercase;letter-spacing:0.08em;
-  font-size:11px;color:var(--muted);font-weight:800;
-}
+.month-grid{min-width:900px;}
+.week-header,.week-row{display:grid;grid-template-columns:60px repeat(7,minmax(90px,1fr)) 14px 205px;}
+.week-header{border-bottom:1px solid var(--line);background:rgba(255,255,255,0.26);}
+.week-header div{padding:10px 8px;text-align:center;text-transform:uppercase;letter-spacing:0.08em;font-size:11px;color:var(--muted);font-weight:800;}
 .week-gap{background:transparent!important;}
 .week-row{border-bottom:1px solid var(--line);}
 .week-row:last-child{border-bottom:0;}
-
-.week-label{
-  padding:10px 8px;border-right:1px solid var(--line);
-  background:rgba(255,255,255,0.22);
-  display:grid;place-items:center;text-align:center;
-}
+.week-label{padding:10px 8px;border-right:1px solid var(--line);background:rgba(255,255,255,0.22);display:grid;place-items:center;text-align:center;}
 .week-label strong{display:block;font-size:0.95rem;line-height:1;}
 .week-label small{margin-top:4px;color:var(--muted);font-size:10px;line-height:1.4;}
-
-.day{
-  min-height:130px;padding:8px 7px 7px;
-  border-right:1px solid var(--line);background:rgba(255,255,255,0.16);
-}
+.day{min-height:110px;padding:8px 8px 7px;border-right:1px solid var(--line);background:rgba(255,255,255,0.16);}
 .day.weekend{background:var(--weekend);}
-.day.other-month{opacity:0.4;background:rgba(255,255,255,0.06);}
-.day.today{box-shadow:inset 0 0 0 2px rgba(46,125,91,0.30);}
-
-.day-head{
-  display:flex;justify-content:space-between;align-items:baseline;
-  gap:5px;margin-bottom:8px;
-}
-.day-num{
-  display:inline-flex;align-items:center;justify-content:center;
-  min-width:25px;height:25px;border-radius:999px;
-  font-weight:800;font-size:12px;
-  background:var(--surface);border:1px solid var(--line);
-}
-.day-name{
-  color:var(--muted);font-size:10px;
-  text-transform:uppercase;letter-spacing:0.1em;font-weight:800;
-}
-
-.activity-row{
-  display:grid;grid-template-columns:20px 1fr;
-  gap:5px;align-items:center;margin-bottom:5px;
-}
+.day.other-month{opacity:0.38;background:rgba(255,255,255,0.06);}
+.day.today{box-shadow:inset 0 0 0 2px rgba(46,125,91,0.32);}
+.day-head{display:flex;justify-content:space-between;align-items:baseline;gap:5px;margin-bottom:9px;}
+.day-num{display:inline-flex;align-items:center;justify-content:center;min-width:26px;height:26px;border-radius:999px;font-weight:800;font-size:12px;background:var(--surface);border:1px solid var(--line);}
+.day-name{color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:0.1em;font-weight:800;}
+.activity-row{display:flex;align-items:center;gap:6px;margin-bottom:5px;}
 .activity-row:last-child{margin-bottom:0;}
-.activity-tag{
-  display:inline-flex;align-items:center;justify-content:center;
-  width:20px;height:20px;border-radius:5px;
-  font-size:10px;font-weight:900;
-  background:var(--surface-strong);border:1px solid var(--line);
-  color:var(--muted);
-}
-.activity-grid{
-  display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:3px;
-}
-
-.toggle{
-  position:relative;height:26px;border-radius:7px;
-  border:1.5px solid var(--line);
-  background:rgba(255,255,255,0.22);
-  display:grid;place-items:center;overflow:hidden;
-  transition:transform 120ms ease,background 120ms ease,box-shadow 120ms ease;
-  cursor:pointer;
-}
+.activity-tag{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:5px;font-size:10px;font-weight:900;background:var(--surface-strong);border:1px solid var(--line);color:var(--muted);flex-shrink:0;}
+.toggle{flex:1;height:30px;border-radius:8px;border:1.5px solid var(--accent);background:rgba(255,255,255,0.22);display:grid;place-items:center;transition:transform 120ms ease,background 120ms ease,box-shadow 120ms ease;cursor:pointer;font-size:14px;}
 .toggle:hover{transform:translateY(-1px);box-shadow:0 4px 10px rgba(0,0,0,0.07);}
-.toggle.on{box-shadow:0 5px 12px rgba(0,0,0,0.10);}
-.toggle .icon{font-size:13px;line-height:1;}
+.toggle.on{background:var(--good-soft);box-shadow:0 4px 12px rgba(46,125,91,0.18);}
 
-.toggle.person-0{border-color:var(--person-1);}
-.toggle.person-0.on{background:var(--person-1-soft);}
-.toggle.person-1{border-color:var(--person-2);}
-.toggle.person-1.on{background:var(--person-2-soft);}
-.toggle.person-2{border-color:var(--person-3);}
-.toggle.person-2.on{background:var(--person-3-soft);}
-.toggle.person-3{border-color:var(--person-4);}
-.toggle.person-3.on{background:var(--person-4-soft);}
-
-/* ── WEEKLY MEASURES ── */
-.measure{
-  padding:10px 11px;
-  background:rgba(255,255,255,0.22);border-left:1px solid var(--line);
-}
-.measure-head{
-  display:flex;justify-content:space-between;align-items:baseline;
-  gap:6px;margin-bottom:8px;
-}
+/* MEASURE COLUMN */
+.measure{padding:10px 12px;background:rgba(255,255,255,0.22);border-left:1px solid var(--line);}
+.measure-head{display:flex;justify-content:space-between;align-items:baseline;gap:6px;margin-bottom:8px;}
 .measure-head strong{font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);}
 .measure-head small{color:var(--muted);font-size:10px;}
-.measure-list{display:grid;gap:5px;}
-.measure-row{display:grid;grid-template-columns:12px 1fr auto;gap:5px;align-items:center;}
-
-.measure-badge{
-  width:12px;height:12px;border-radius:50%;display:block;flex-shrink:0;
-}
-.measure-badge.p0{background:var(--person-1);}
-.measure-badge.p1{background:var(--person-2);}
-.measure-badge.p2{background:var(--person-3);}
-.measure-badge.p3{background:var(--person-4);}
-
+.measure-metric{margin-bottom:8px;}
+.measure-metric:last-child{margin-bottom:0;}
+.measure-metric-label{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);margin-bottom:3px;}
 .measure-input{
-  width:100%;min-height:26px;padding:0 7px;
+  width:100%;min-height:28px;padding:0 8px;
   border-radius:7px;border:1px solid var(--line);
   background:var(--surface-strong);color:var(--text);
-  font-weight:700;font-size:12px;
-  transition:border-color 0.15s;
+  font-weight:700;font-size:13px;margin-bottom:4px;
+  display:block;transition:border-color 0.15s;
 }
-.measure-input:focus{border-color:var(--accent);outline:none;}
+.measure-input:focus{outline:none;}
+.measure-input.kg-inp:focus{border-color:var(--accent);}
+.measure-input.fat-inp:focus{border-color:var(--fat-color);}
+.rem-badge{
+  display:block;width:100%;padding:3px 7px;border-radius:6px;
+  font-size:10px;font-weight:800;text-align:center;
+}
+.rem-badge.good{background:var(--good-soft);color:#27724f;}
+.rem-badge.warn{background:var(--warn-soft);color:#9a6a10;}
+.rem-badge.neutral{background:rgba(102,117,123,0.10);color:var(--muted);}
+.rem-badge.done{background:var(--good-soft);color:#27724f;}
 
-.pct-badge{
-  font-size:10px;font-weight:800;padding:2px 5px;
-  border-radius:5px;white-space:nowrap;min-width:36px;
-  text-align:center;
-}
-.pct-badge.good{background:rgba(66,163,111,0.18);color:#27724f;}
-.pct-badge.bad{background:rgba(217,95,107,0.18);color:#b83040;}
-.pct-badge.neutral{background:rgba(102,117,123,0.10);color:var(--muted);}
-
-.footer{
-  margin:20px 2px 0;color:var(--muted);font-size:13px;text-align:center;
-}
+.footer{margin:20px 2px 0;color:var(--muted);font-size:13px;text-align:center;}
 
 @media(max-width:900px){
-  .app{width:min(100vw - 12px,1480px);margin-top:6px;}
+  .charts-section{grid-template-columns:1fr;}
+  .app{width:min(100vw - 12px,1200px);margin-top:6px;}
   .hero{padding:20px 16px 18px;}
-  .goals-table{grid-template-columns:36px 1fr 1fr 1fr;}
 }
 @media(max-width:640px){
   h1{font-size:2.4rem;}
   .month-title strong{font-size:1.4rem;}
-  .day{min-height:110px;}
-  .month-grid{min-width:920px;}
+  .day{min-height:100px;}
+  .month-grid{min-width:820px;}
 }
 </style>
 </head>
@@ -358,7 +194,7 @@ h1{
     <div class="title-row">
       <div>
         <h1>Gym Calendar</h1>
-        <p class="subtitle">Track gym and food every day. Weekly weights with % progress toward your goal.</p>
+        <p class="subtitle">Täglich Gym &amp; Food. Wöchentlich Gewicht + Körperfett — sieh den Fortschritt live.</p>
       </div>
       <div class="sync-badge">
         <span class="sync-dot" id="syncDot"></span>
@@ -367,40 +203,85 @@ h1{
     </div>
     <div class="legend">
       <span class="legend-item">☀️ = on track &nbsp; 🌧️ = off day</span>
-      <span class="legend-item"><strong>G</strong> = gym · <strong>F</strong> = food</span>
-      <span class="legend-item"><span class="dot" style="background:var(--person-1)"></span> P1</span>
-      <span class="legend-item"><span class="dot" style="background:var(--person-2)"></span> P2</span>
-      <span class="legend-item"><span class="dot" style="background:var(--person-3)"></span> P3</span>
-      <span class="legend-item"><span class="dot" style="background:var(--person-4)"></span> P4</span>
+      <span class="legend-item"><strong>G</strong> = Gym · <strong>F</strong> = Food</span>
     </div>
   </section>
 
-  <!-- STARTING MEASURES & GOALS — shown once -->
+  <!-- GOALS — einmalig -->
   <section class="goals-card">
     <div class="goals-head">
-      <div class="goals-head-title">
-        <strong>Starting Measures &amp; Goals</strong>
-        <small>Enter each person's name, starting weight and target weight once.</small>
+      <strong>Startmaße &amp; Ziele</strong>
+      <small>— einmalig eintragen</small>
+    </div>
+    <div class="goals-body">
+      <div class="goals-group">
+        <div class="goals-group-label">Profil</div>
+        <div class="goals-row">
+          <div class="goals-field">
+            <label for="gName">Name</label>
+            <input class="goals-input wide" id="gName" type="text" maxlength="32" placeholder="Dein Name" />
+          </div>
+        </div>
+      </div>
+      <div class="goals-divider"></div>
+      <div class="goals-group">
+        <div class="goals-group-label">⚖️ Gewicht (kg)</div>
+        <div class="goals-row">
+          <div class="goals-field">
+            <label for="gStartKg">Start</label>
+            <input class="goals-input" id="gStartKg" type="text" inputmode="decimal" placeholder="z. B. 94" />
+          </div>
+          <div class="goals-field">
+            <label for="gGoalKg">Ziel</label>
+            <input class="goals-input" id="gGoalKg" type="text" inputmode="decimal" placeholder="z. B. 85" />
+          </div>
+        </div>
+      </div>
+      <div class="goals-divider"></div>
+      <div class="goals-group">
+        <div class="goals-group-label">🔥 Körperfett (%)</div>
+        <div class="goals-row">
+          <div class="goals-field">
+            <label for="gStartFat">Start</label>
+            <input class="goals-input" id="gStartFat" type="text" inputmode="decimal" placeholder="z. B. 25" />
+          </div>
+          <div class="goals-field">
+            <label for="gGoalFat">Ziel</label>
+            <input class="goals-input" id="gGoalFat" type="text" inputmode="decimal" placeholder="z. B. 18" />
+          </div>
+        </div>
       </div>
     </div>
-    <div class="goals-table" id="goalsTable">
-      <div class="goals-col-h"></div>
-      <div class="goals-col-h">Name</div>
-      <div class="goals-col-h">Start (kg)</div>
-      <div class="goals-col-h">Goal (kg)</div>
-    </div>
   </section>
+
+  <!-- CHARTS -->
+  <div class="charts-section">
+    <div class="chart-card">
+      <div class="chart-head">
+        <strong>⚖️ Gewichtsverlauf</strong>
+        <div class="chart-meta" id="chartKgMeta"></div>
+      </div>
+      <div class="chart-body" id="chartKgBody"></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-head">
+        <strong>🔥 Körperfett</strong>
+        <div class="chart-meta" id="chartFatMeta"></div>
+      </div>
+      <div class="chart-body" id="chartFatBody"></div>
+    </div>
+  </div>
 
   <!-- CALENDAR -->
   <main class="calendar" id="calendar"></main>
 
   <div class="footer">
-    Data syncs to Notion. Also cached in <code>localStorage</code> for instant load.
+    Daten → Notion · lokal gecacht in <code>localStorage</code>
   </div>
 </div>
 
 <script>
-const STORAGE_KEY = 'gym-cal-v3';
+const STORAGE_KEY = 'gym-cal-v4';
 const API_URL = '/api/data';
 
 const MONTHS = [
@@ -412,293 +293,335 @@ const MONTHS = [
   {year:2026,month:10,name:'November'},
   {year:2026,month:11,name:'December'},
 ];
-
-const PERSON_COLORS = [
-  'var(--person-1)','var(--person-2)','var(--person-3)','var(--person-4)'
-];
-
 const DAY_NAMES = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
-
 const todayKey = fmtDate(new Date());
-let saveTimer = null;
-let notionTimer = null;
+let saveTimer = null, notionTimer = null;
 
-// ── State ──────────────────────────────────────────────
+// ── State ─────────────────────────────────────────────
 const state = loadLocal();
-state.names  = arr4(state.names,  ['Kai','Esau','Julia','Matthias']);
-state.starts = arr4(state.starts, ['','','','']);
-state.goals  = arr4(state.goals,  ['','','','']);
-state.days   = state.days   || {};
+state.name     = state.name     ?? 'Kai';
+state.startKg  = state.startKg  ?? '';
+state.goalKg   = state.goalKg   ?? '';
+state.startFat = state.startFat ?? '';
+state.goalFat  = state.goalFat  ?? '';
+state.days     = state.days     || {};
 state.measures = state.measures || {};
 
-function arr4(val, def) {
-  return Array.isArray(val) && val.length === 4 ? val : [...def];
-}
-
-// ── Persistence ────────────────────────────────────────
-function loadLocal() {
-  try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); }
-  catch { return {}; }
-}
-
-function saveLocal() {
-  clearTimeout(saveTimer);
-  saveTimer = setTimeout(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-  }, 80);
-}
-
-function setSyncStatus(s) {
-  document.getElementById('syncDot').className = 'sync-dot ' + s;
-  document.getElementById('syncLabel').textContent =
-    s === 'syncing' ? 'Saving…' : s === 'saved' ? 'Synced ✓' : s === 'error' ? 'Offline' : '—';
-}
-
-async function pushToNotion() {
-  clearTimeout(notionTimer);
-  notionTimer = setTimeout(async () => {
-    setSyncStatus('syncing');
-    try {
-      const r = await fetch(API_URL, {
-        method: 'POST',
-        headers: {'Content-Type':'application/json'},
-        body: JSON.stringify(state),
-      });
-      setSyncStatus(r.ok ? 'saved' : 'error');
-    } catch { setSyncStatus('error'); }
-  }, 1800);
-}
-
-async function pullFromNotion() {
-  try {
-    const r = await fetch(API_URL);
-    if (!r.ok) { setSyncStatus('error'); return; }
-    const remote = await r.json();
-    if (!remote || typeof remote !== 'object') { setSyncStatus('saved'); return; }
-    // Remote wins on merge
-    if (Array.isArray(remote.names))  state.names  = remote.names;
-    if (Array.isArray(remote.starts)) state.starts = remote.starts;
-    if (Array.isArray(remote.goals))  state.goals  = remote.goals;
-    if (remote.days)     Object.assign(state.days, remote.days);
-    if (remote.measures) Object.assign(state.measures, remote.measures);
-    saveLocal();
-    renderGoals();
-    renderCalendar();
-    setSyncStatus('saved');
-  } catch { setSyncStatus('error'); }
-}
-
-function scheduleSave() {
-  saveLocal();
-  pushToNotion();
-}
-
-// ── Progress calculation ───────────────────────────────
-function calcPct(personIdx, currentVal) {
-  const s = parseFloat(state.starts[personIdx]);
-  const g = parseFloat(state.goals[personIdx]);
-  const c = parseFloat(currentVal);
-  if (isNaN(s) || isNaN(g) || isNaN(c) || s === g) return null;
-  const pct = g < s
-    ? (s - c) / (s - g) * 100   // weight loss: lower is better
-    : (c - s) / (g - s) * 100;  // weight gain: higher is better
-  return Math.round(pct);
-}
-
-function applyPctBadge(el, pct) {
-  if (pct === null) {
-    el.textContent = '—'; el.className = 'pct-badge neutral'; return;
+// Migrate old measure format (string → {kg,fat})
+Object.keys(state.measures).forEach(wk => {
+  const v = state.measures[wk];
+  if (typeof v === 'string' || typeof v === 'number') {
+    state.measures[wk] = {kg: String(v), fat: ''};
+  } else if (Array.isArray(v)) {
+    state.measures[wk] = {kg: String(v[0]||''), fat: ''};
   }
-  el.textContent = (pct > 0 ? '+' : '') + pct + '%';
-  el.className = 'pct-badge ' + (pct > 0 ? 'good' : pct < 0 ? 'bad' : 'neutral');
-}
+});
 
-function refreshAllBadges() {
-  document.querySelectorAll('[data-ppct]').forEach(el => {
-    const pi = +el.dataset.ppct;
-    const wk = el.dataset.wk;
-    applyPctBadge(el, calcPct(pi, state.measures[wk]?.[pi] ?? ''));
+// ── Persistence ───────────────────────────────────────
+function loadLocal(){
+  try{return JSON.parse(localStorage.getItem(STORAGE_KEY)||'{}');}catch{return{};}
+}
+function saveLocal(){
+  clearTimeout(saveTimer);
+  saveTimer=setTimeout(()=>localStorage.setItem(STORAGE_KEY,JSON.stringify(state)),80);
+}
+function setSyncStatus(s){
+  document.getElementById('syncDot').className='sync-dot '+s;
+  document.getElementById('syncLabel').textContent=
+    s==='syncing'?'Saving…':s==='saved'?'Synced ✓':s==='error'?'Offline':'—';
+}
+async function pushToNotion(){
+  clearTimeout(notionTimer);
+  notionTimer=setTimeout(async()=>{
+    setSyncStatus('syncing');
+    try{
+      const r=await fetch(API_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(state)});
+      setSyncStatus(r.ok?'saved':'error');
+    }catch{setSyncStatus('error');}
+  },1800);
+}
+async function pullFromNotion(){
+  try{
+    const r=await fetch(API_URL);
+    if(!r.ok){setSyncStatus('error');return;}
+    const d=await r.json();
+    if(!d||typeof d!=='object'){setSyncStatus('saved');return;}
+    ['name','startKg','goalKg','startFat','goalFat'].forEach(k=>{if(d[k]!==undefined)state[k]=d[k];});
+    if(d.days)Object.assign(state.days,d.days);
+    if(d.measures){
+      Object.assign(state.measures,d.measures);
+      // migrate remote too
+      Object.keys(state.measures).forEach(wk=>{
+        const v=state.measures[wk];
+        if(typeof v==='string'||typeof v==='number')state.measures[wk]={kg:String(v),fat:''};
+        else if(Array.isArray(v))state.measures[wk]={kg:String(v[0]||''),fat:''};
+      });
+    }
+    saveLocal();
+    applyGoalsToUI();
+    renderCalendar();
+    renderCharts();
+    setSyncStatus('saved');
+  }catch{setSyncStatus('error');}
+}
+function scheduleSave(){saveLocal();pushToNotion();}
+
+// ── Remaining calc ────────────────────────────────────
+function remKg(val){
+  const g=parseFloat(state.goalKg),c=parseFloat(val);
+  if(isNaN(g)||isNaN(c))return null;
+  return Math.round((c-g)*10)/10;
+}
+function remFat(val){
+  const g=parseFloat(state.goalFat),c=parseFloat(val);
+  if(isNaN(g)||isNaN(c))return null;
+  return Math.round((c-g)*10)/10;
+}
+function applyRemBadge(el,rem,unit){
+  if(rem===null){el.textContent='—';el.className='rem-badge neutral';return;}
+  if(rem<=0){el.textContent='🎯 Ziel erreicht!';el.className='rem-badge done';return;}
+  el.textContent=`noch ${rem}${unit}`;
+  el.className='rem-badge '+(rem<=2?'warn':'good');
+}
+function refreshAllBadges(){
+  document.querySelectorAll('[data-rem]').forEach(el=>{
+    const wk=el.dataset.rem,metric=el.dataset.metric;
+    const val=state.measures[wk]?.[metric]??'';
+    if(metric==='kg')applyRemBadge(el,remKg(val),' kg');
+    else applyRemBadge(el,remFat(val),'%');
   });
 }
 
-// ── Goals table ───────────────────────────────────────
-function renderGoals() {
-  const table = document.getElementById('goalsTable');
-  // Remove old rows (keep the 4 header cells)
-  while (table.children.length > 4) table.removeChild(table.lastChild);
+// ── Goals UI ──────────────────────────────────────────
+function applyGoalsToUI(){
+  document.getElementById('gName').value    = state.name     || '';
+  document.getElementById('gStartKg').value = state.startKg  || '';
+  document.getElementById('gGoalKg').value  = state.goalKg   || '';
+  document.getElementById('gStartFat').value= state.startFat || '';
+  document.getElementById('gGoalFat').value = state.goalFat  || '';
+}
 
-  state.names.forEach((name, i) => {
-    const dotCell = el('div', 'goals-dot-cell');
-    dotCell.innerHTML = `<span class="dot" style="background:${PERSON_COLORS[i]};width:13px;height:13px;"></span>`;
-
-    const nameCell = el('div', 'goals-data-cell');
-    const nameIn = inputEl({value: name, placeholder: `Person ${i+1}`, maxlength:24,
-      label:`Name person ${i+1}`});
-    nameIn.addEventListener('input', () => {
-      state.names[i] = nameIn.value.trim() || `Person ${i+1}`;
-      renderCalendar();
-      scheduleSave();
-    });
-    nameCell.appendChild(nameIn);
-
-    const startCell = el('div', 'goals-data-cell');
-    const startIn = inputEl({value: state.starts[i], placeholder:'e.g. 90', label:`Start weight ${name}`});
-    startIn.addEventListener('input', () => {
-      state.starts[i] = startIn.value;
-      refreshAllBadges();
-      scheduleSave();
-    });
-    startCell.appendChild(startIn);
-
-    const goalCell = el('div', 'goals-data-cell');
-    const goalIn = inputEl({value: state.goals[i], placeholder:'e.g. 80', label:`Goal weight ${name}`});
-    goalIn.addEventListener('input', () => {
-      state.goals[i] = goalIn.value;
-      refreshAllBadges();
-      scheduleSave();
-    });
-    goalCell.appendChild(goalIn);
-
-    table.append(dotCell, nameCell, startCell, goalCell);
+function bindGoalInput(id, key, onchange){
+  document.getElementById(id).addEventListener('input', e=>{
+    state[key] = e.target.value;
+    onchange();
+    scheduleSave();
   });
 }
+bindGoalInput('gName',    'name',    ()=>renderCalendar());
+bindGoalInput('gStartKg', 'startKg', ()=>renderCharts());
+bindGoalInput('gGoalKg',  'goalKg',  ()=>{refreshAllBadges();renderCharts();});
+bindGoalInput('gStartFat','startFat',()=>renderCharts());
+bindGoalInput('gGoalFat', 'goalFat', ()=>{refreshAllBadges();renderCharts();});
 
-function inputEl({value, placeholder, maxlength, label}) {
-  const inp = document.createElement('input');
-  inp.className = 'goals-input';
-  inp.type = 'text';
-  inp.inputMode = 'decimal';
-  inp.value = value || '';
-  inp.placeholder = placeholder || '';
-  if (maxlength) inp.maxLength = maxlength;
-  if (label) inp.setAttribute('aria-label', label);
-  return inp;
+// ── Charts ────────────────────────────────────────────
+function getAllWeekStarts(){
+  const seen=new Set(),result=[];
+  MONTHS.forEach(({year,month})=>{
+    getWeeks(year,month).forEach(week=>{
+      const k=fmtDate(week[0]);
+      if(!seen.has(k)){seen.add(k);result.push(k);}
+    });
+  });
+  return result.sort();
 }
 
-// ── Calendar ─────────────────────────────────────────
-function renderCalendar() {
-  const root = document.getElementById('calendar');
-  root.innerHTML = '';
+function buildSvg(wks, getVal, goalVal, startVal, color){
+  const n = wks.length;
+  const points = wks.map((wk,i)=>{const v=getVal(wk);return v!==null?{i,v}:null;}).filter(Boolean);
 
-  MONTHS.forEach(({year, month, name}) => {
-    const weeks = getWeeks(year, month);
-    const sec = el('section', 'month');
+  const allVals = points.map(p=>p.v);
+  if(!isNaN(goalVal))  allVals.push(goalVal);
+  if(!isNaN(startVal)) allVals.push(startVal);
+  if(allVals.length===0) return null;
 
-    const head = el('div', 'month-head');
-    head.innerHTML = `
-      <div class="month-title">
-        <strong>${name} ${year}</strong>
-        <small>Mon – Sun · weekly weight in last column</small>
-      </div>
-      <div class="month-stats" data-stats="${year}-${month}"></div>
-    `;
-    sec.appendChild(head);
+  const minY=Math.min(...allVals), maxY=Math.max(...allVals);
+  const rangeY = maxY-minY || 1;
+  const W=100,H=52,pl=6,pr=8,pt=5,pb=5;
+  const cW=W-pl-pr, cH=H-pt-pb;
+  const xOf=i=>pl+(i/(n-1||1))*cW;
+  const yOf=v=>pt+cH-((v-minY)/rangeY)*cH;
 
-    const scroll = el('div','scroll-x');
-    const grid = el('div','month-grid');
+  let svg=`<svg viewBox="0 0 ${W} ${H}" style="width:100%;display:block;overflow:visible">`;
 
-    const hdr = el('div','week-header');
-    hdr.innerHTML = `<div>Wk</div>${DAY_NAMES.map(d=>`<div>${d}</div>`).join('')}<div class="week-gap"></div><div>kg · progress</div>`;
+  // goal dashed line
+  if(!isNaN(goalVal)){
+    const gy=yOf(goalVal).toFixed(2);
+    svg+=`<line x1="${pl}" y1="${gy}" x2="${W-pr}" y2="${gy}" stroke="${color}" stroke-width="0.4" stroke-dasharray="1.5,1" opacity="0.5"/>`;
+  }
+
+  // area fill under the line
+  if(points.length>1){
+    const lineCoords=points.map(p=>`${xOf(p.i).toFixed(2)},${yOf(p.v).toFixed(2)}`).join(' ');
+    const first=points[0],last=points[points.length-1];
+    const area=`M${xOf(first.i).toFixed(2)},${(pt+cH).toFixed(2)} L${lineCoords} L${xOf(last.i).toFixed(2)},${(pt+cH).toFixed(2)} Z`;
+    svg+=`<path d="${area}" fill="${color}" opacity="0.07"/>`;
+    const d=points.map((p,j)=>`${j===0?'M':'L'}${xOf(p.i).toFixed(2)},${yOf(p.v).toFixed(2)}`).join(' ');
+    svg+=`<path d="${d}" fill="none" stroke="${color}" stroke-width="0.9" stroke-linecap="round" stroke-linejoin="round"/>`;
+  }
+
+  // dots
+  points.forEach(p=>{
+    svg+=`<circle cx="${xOf(p.i).toFixed(2)}" cy="${yOf(p.v).toFixed(2)}" r="1.4" fill="${color}"/>`;
+  });
+
+  svg+='</svg>';
+  return svg;
+}
+
+function renderCharts(){
+  const wks = getAllWeekStarts();
+
+  // KG chart
+  const goalKg  = parseFloat(state.goalKg);
+  const startKg = parseFloat(state.startKg);
+  const svgKg = buildSvg(wks,
+    wk=>{ const v=parseFloat(state.measures[wk]?.kg); return isNaN(v)?null:v; },
+    goalKg, startKg, '#2e7d5b'
+  );
+  document.getElementById('chartKgBody').innerHTML = svgKg || '<p class="chart-empty">Noch keine Gewichtsdaten</p>';
+  const kgMeta=document.getElementById('chartKgMeta');
+  kgMeta.innerHTML='';
+  if(!isNaN(startKg))kgMeta.innerHTML+=`<span>Start <b>${startKg} kg</b></span>`;
+  if(!isNaN(goalKg)) kgMeta.innerHTML+=`<span>Ziel <b>${goalKg} kg</b></span>`;
+
+  // FAT chart
+  const goalFat  = parseFloat(state.goalFat);
+  const startFat = parseFloat(state.startFat);
+  const svgFat = buildSvg(wks,
+    wk=>{ const v=parseFloat(state.measures[wk]?.fat); return isNaN(v)?null:v; },
+    goalFat, startFat, '#5c8fd8'
+  );
+  document.getElementById('chartFatBody').innerHTML = svgFat || '<p class="chart-empty">Noch keine Fettdaten</p>';
+  const fatMeta=document.getElementById('chartFatMeta');
+  fatMeta.innerHTML='';
+  if(!isNaN(startFat))fatMeta.innerHTML+=`<span>Start <b>${startFat}%</b></span>`;
+  if(!isNaN(goalFat)) fatMeta.innerHTML+=`<span>Ziel <b>${goalFat}%</b></span>`;
+}
+
+// ── Calendar ──────────────────────────────────────────
+function renderCalendar(){
+  const root=document.getElementById('calendar');
+  root.innerHTML='';
+
+  MONTHS.forEach(({year,month,name})=>{
+    const weeks=getWeeks(year,month);
+    const sec=el('section','month');
+    sec.innerHTML=`
+      <div class="month-head">
+        <div class="month-title">
+          <strong>${name} ${year}</strong>
+          <small>Mon – Sun · Wochenmessung am Ende</small>
+        </div>
+        <div class="month-stats" data-stats="${year}-${month}"></div>
+      </div>`;
+
+    const scroll=el('div','scroll-x');
+    const grid=el('div','month-grid');
+    const hdr=el('div','week-header');
+    hdr.innerHTML=`<div>Wk</div>${DAY_NAMES.map(d=>`<div>${d}</div>`).join('')}<div class="week-gap"></div><div>Messen</div>`;
     grid.appendChild(hdr);
 
-    weeks.forEach(week => {
-      const wStart = week[0], wEnd = week[6];
-      const wk = fmtDate(wStart);
-      if (!Array.isArray(state.measures[wk])) state.measures[wk] = Array(4).fill('');
+    weeks.forEach(week=>{
+      const wStart=week[0],wEnd=week[6];
+      const wk=fmtDate(wStart);
+      if(!state.measures[wk]||typeof state.measures[wk]!=='object')
+        state.measures[wk]={kg:'',fat:''};
 
-      const row = el('div','week-row');
+      const row=el('div','week-row');
 
       // Week label
-      const wLabel = el('div','week-label');
-      wLabel.innerHTML = `<strong>W${weekNum(wStart)}</strong><small>${wStart.getDate()}/${wStart.getMonth()+1}<br>${wEnd.getDate()}/${wEnd.getMonth()+1}</small>`;
+      const wLabel=el('div','week-label');
+      wLabel.innerHTML=`<strong>W${weekNum(wStart)}</strong><small>${wStart.getDate()}/${wStart.getMonth()+1}<br>${wEnd.getDate()}/${wEnd.getMonth()+1}</small>`;
       row.appendChild(wLabel);
 
-      // Day cells
-      week.forEach(date => {
-        const key = fmtDate(date);
-        const inMonth = date.getMonth() === month;
-        const ds = ensureDay(key);
-        const dayEl = el('div', ['day',
-          !inMonth ? 'other-month' : '',
-          (date.getDay()===0||date.getDay()===6) ? 'weekend' : '',
-          key===todayKey ? 'today' : '',
+      // Days
+      week.forEach(date=>{
+        const key=fmtDate(date);
+        const inMonth=date.getMonth()===month;
+        const ds=ensureDay(key);
+        const dayEl=el('div',[
+          'day',
+          !inMonth?'other-month':'',
+          (date.getDay()===0||date.getDay()===6)?'weekend':'',
+          key===todayKey?'today':'',
         ].filter(Boolean).join(' '));
 
-        const dHead = el('div','day-head');
-        dHead.innerHTML = `<span class="day-num">${date.getDate()}</span><span class="day-name">${DAY_NAMES[(date.getDay()+6)%7]}</span>`;
-        dayEl.appendChild(dHead);
+        dayEl.innerHTML=`<div class="day-head"><span class="day-num">${date.getDate()}</span><span class="day-name">${DAY_NAMES[(date.getDay()+6)%7]}</span></div>`;
 
-        ['gym','food'].forEach(cat => {
-          const aRow = el('div','activity-row');
-          const tag = el('span','activity-tag');
-          tag.textContent = cat === 'gym' ? 'G' : 'F';
-          const aGrid = el('div','activity-grid');
-
-          state.names.forEach((pName, pi) => {
-            const on = Boolean(ds[cat][pi]);
-            const btn = document.createElement('button');
-            btn.type = 'button';
-            btn.className = `toggle person-${pi}${on?' on':''}`;
-            btn.setAttribute('aria-pressed', on);
-            btn.setAttribute('title', `${pName} · ${cat} · ${date.toDateString()}`);
-            btn.innerHTML = `<span class="icon">${on?'☀️':'🌧️'}</span>`;
-            btn.addEventListener('click', () => {
-              ds[cat][pi] = !ds[cat][pi];
-              const nowOn = ds[cat][pi];
-              btn.classList.toggle('on', nowOn);
-              btn.setAttribute('aria-pressed', nowOn);
-              btn.querySelector('.icon').textContent = nowOn ? '☀️' : '🌧️';
-              updateStats(year, month);
-              scheduleSave();
-            });
-            aGrid.appendChild(btn);
+        ['gym','food'].forEach(cat=>{
+          const aRow=el('div','activity-row');
+          const tag=el('span','activity-tag');
+          tag.textContent=cat==='gym'?'G':'F';
+          const on=Boolean(ds[cat]);
+          const btn=document.createElement('button');
+          btn.type='button';
+          btn.className='toggle'+(on?' on':'');
+          btn.setAttribute('aria-pressed',on);
+          btn.setAttribute('title',`${esc(state.name)} · ${cat} · ${date.toDateString()}`);
+          btn.textContent=on?'☀️':'🌧️';
+          btn.addEventListener('click',()=>{
+            ds[cat]=!ds[cat];
+            btn.classList.toggle('on',ds[cat]);
+            btn.setAttribute('aria-pressed',ds[cat]);
+            btn.textContent=ds[cat]?'☀️':'🌧️';
+            updateStats(year,month);
+            scheduleSave();
           });
-
-          aRow.append(tag, aGrid);
+          aRow.append(tag,btn);
           dayEl.appendChild(aRow);
         });
-
         row.appendChild(dayEl);
       });
 
-      // Gap
       row.appendChild(el('div','week-gap'));
 
-      // Measures + progress
-      const mCol = el('div','measure');
-      const mHead = el('div','measure-head');
-      mHead.innerHTML = `<strong>Weight</strong><small>${fmtWeekLabel(wStart)}</small>`;
-      const mList = el('div','measure-list');
+      // Measure column
+      const mCol=el('div','measure');
+      const mHead=el('div','measure-head');
+      mHead.innerHTML=`<strong>Messen</strong><small>${fmtWeekLabel(wStart)}</small>`;
+      mCol.appendChild(mHead);
 
-      state.names.forEach((pName, pi) => {
-        const mRow = el('div','measure-row');
-        const badge = el('span', `measure-badge p${pi}`);
-        badge.setAttribute('aria-hidden','true');
-
-        const inp = document.createElement('input');
-        inp.className = 'measure-input';
-        inp.type = 'text';
-        inp.inputMode = 'decimal';
-        inp.placeholder = pName;
-        inp.value = state.measures[wk][pi] || '';
-        inp.setAttribute('aria-label', `Weight ${pName} week ${fmtWeekLabel(wStart)}`);
-
-        const pBadge = el('span','pct-badge neutral');
-        pBadge.dataset.ppct = pi;
-        pBadge.dataset.wk = wk;
-        applyPctBadge(pBadge, calcPct(pi, state.measures[wk][pi]));
-
-        inp.addEventListener('input', () => {
-          state.measures[wk][pi] = inp.value;
-          applyPctBadge(pBadge, calcPct(pi, inp.value));
-          scheduleSave();
-        });
-
-        mRow.append(badge, inp, pBadge);
-        mList.appendChild(mRow);
+      // kg metric
+      const kgDiv=el('div','measure-metric');
+      kgDiv.innerHTML=`<div class="measure-metric-label">⚖️ Gewicht</div>`;
+      const kgInp=document.createElement('input');
+      kgInp.className='measure-input kg-inp';
+      kgInp.type='text';kgInp.inputMode='decimal';
+      kgInp.placeholder='kg';
+      kgInp.value=state.measures[wk].kg||'';
+      const kgBadge=el('span','rem-badge neutral');
+      kgBadge.dataset.rem=wk;kgBadge.dataset.metric='kg';
+      applyRemBadge(kgBadge,remKg(state.measures[wk].kg),' kg');
+      kgInp.addEventListener('input',()=>{
+        state.measures[wk].kg=kgInp.value;
+        applyRemBadge(kgBadge,remKg(kgInp.value),' kg');
+        renderCharts();
+        scheduleSave();
       });
+      kgDiv.append(kgInp,kgBadge);
+      mCol.appendChild(kgDiv);
 
-      mCol.append(mHead, mList);
+      // fat metric
+      const fatDiv=el('div','measure-metric');
+      fatDiv.innerHTML=`<div class="measure-metric-label">🔥 Körperfett</div>`;
+      const fatInp=document.createElement('input');
+      fatInp.className='measure-input fat-inp';
+      fatInp.type='text';fatInp.inputMode='decimal';
+      fatInp.placeholder='%';
+      fatInp.value=state.measures[wk].fat||'';
+      const fatBadge=el('span','rem-badge neutral');
+      fatBadge.dataset.rem=wk;fatBadge.dataset.metric='fat';
+      applyRemBadge(fatBadge,remFat(state.measures[wk].fat),'%');
+      fatInp.addEventListener('input',()=>{
+        state.measures[wk].fat=fatInp.value;
+        applyRemBadge(fatBadge,remFat(fatInp.value),'%');
+        renderCharts();
+        scheduleSave();
+      });
+      fatDiv.append(fatInp,fatBadge);
+      mCol.appendChild(fatDiv);
+
       row.appendChild(mCol);
       grid.appendChild(row);
     });
@@ -706,85 +629,56 @@ function renderCalendar() {
     scroll.appendChild(grid);
     sec.appendChild(scroll);
     root.appendChild(sec);
-    updateStats(year, month);
+    updateStats(year,month);
   });
 }
 
-function updateStats(year, month) {
-  const box = document.querySelector(`[data-stats="${year}-${month}"]`);
-  if (!box) return;
-  const first = new Date(year, month, 1);
-  const last  = new Date(year, month+1, 0);
-  const html = state.names.map((name, i) => {
-    let gym=0, food=0;
-    for (let d=new Date(first); d<=last; d.setDate(d.getDate()+1)) {
-      const ds = state.days[fmtDate(d)];
-      if (ds?.gym?.[i])  gym++;
-      if (ds?.food?.[i]) food++;
-    }
-    return `<span class="stat"><i class="dot" style="background:${PERSON_COLORS[i]}"></i><b>${esc(name)}</b> G&nbsp;${gym}&nbsp;/&nbsp;F&nbsp;${food}</span>`;
-  }).join('');
-  box.innerHTML = html;
+function updateStats(year,month){
+  const box=document.querySelector(`[data-stats="${year}-${month}"]`);
+  if(!box)return;
+  const first=new Date(year,month,1),last=new Date(year,month+1,0);
+  let gym=0,food=0;
+  for(let d=new Date(first);d<=last;d.setDate(d.getDate()+1)){
+    const ds=state.days[fmtDate(d)];
+    if(ds?.gym)gym++;if(ds?.food)food++;
+  }
+  const days=last.getDate();
+  box.innerHTML=`<span class="stat"><b>${esc(state.name)}</b> · G&nbsp;${gym}/${days} · F&nbsp;${food}/${days}</span>`;
 }
 
-// ── Helpers ───────────────────────────────────────────
-function el(tag, cls) {
-  const e = document.createElement(tag);
-  if (cls) e.className = cls;
-  return e;
-}
-
-function fmtDate(date) {
-  return `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,'0')}-${String(date.getDate()).padStart(2,'0')}`;
-}
-
-function fmtWeekLabel(date) {
-  const e = new Date(date); e.setDate(e.getDate()+6);
-  return `${pad(date.getDate())}.${pad(date.getMonth()+1)} – ${pad(e.getDate())}.${pad(e.getMonth()+1)}`;
-}
-
-function pad(n){ return String(n).padStart(2,'0'); }
-
-function weekNum(date) {
-  const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
-  d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay()||7));
-  const y = new Date(Date.UTC(d.getUTCFullYear(),0,1));
+// ── Helpers ────────────────────────────────────────────
+function el(tag,cls){const e=document.createElement(tag);if(cls)e.className=cls;return e;}
+function fmtDate(d){return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;}
+function fmtWeekLabel(d){const e=new Date(d);e.setDate(e.getDate()+6);return `${pad(d.getDate())}.${pad(d.getMonth()+1)}–${pad(e.getDate())}.${pad(e.getMonth()+1)}`;}
+function pad(n){return String(n).padStart(2,'0');}
+function weekNum(date){
+  const d=new Date(Date.UTC(date.getFullYear(),date.getMonth(),date.getDate()));
+  d.setUTCDate(d.getUTCDate()+4-(d.getUTCDay()||7));
+  const y=new Date(Date.UTC(d.getUTCFullYear(),0,1));
   return Math.ceil((((d-y)/86400000)+1)/7);
 }
-
-function mondayOf(date) {
-  const d = new Date(date);
-  d.setDate(d.getDate() - (d.getDay()+6)%7);
-  d.setHours(0,0,0,0);
-  return d;
-}
-
-function getWeeks(year, month) {
-  const first = new Date(year, month, 1);
-  const last  = new Date(year, month+1, 0);
-  let cursor  = mondayOf(first);
-  const weeks = [];
-  while (cursor <= last || cursor.getDay() !== 1) {
-    const week = [];
-    for (let i=0;i<7;i++) { week.push(new Date(cursor)); cursor.setDate(cursor.getDate()+1); }
+function mondayOf(d){const r=new Date(d);r.setDate(r.getDate()-(r.getDay()+6)%7);r.setHours(0,0,0,0);return r;}
+function getWeeks(year,month){
+  const first=new Date(year,month,1),last=new Date(year,month+1,0);
+  let cursor=mondayOf(first);const weeks=[];
+  while(cursor<=last||cursor.getDay()!==1){
+    const week=[];
+    for(let i=0;i<7;i++){week.push(new Date(cursor));cursor.setDate(cursor.getDate()+1);}
     weeks.push(week);
-    if (cursor > last && cursor.getDay() === 1) break;
+    if(cursor>last&&cursor.getDay()===1)break;
   }
   return weeks;
 }
-
-function ensureDay(key) {
-  if (!state.days[key]) state.days[key] = {gym:Array(4).fill(false), food:Array(4).fill(false)};
+function ensureDay(key){
+  if(!state.days[key])state.days[key]={gym:false,food:false};
   return state.days[key];
 }
+function esc(v){return String(v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 
-function esc(v) {
-  return String(v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
-
-// ── Init ─────────────────────────────────────────────
-renderGoals();
+// ── Init ──────────────────────────────────────────────
+applyGoalsToUI();
 renderCalendar();
+renderCharts();
 pullFromNotion();
 </script>
 </body>
