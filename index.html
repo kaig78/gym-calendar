@@ -379,7 +379,7 @@ async function pullFromNotion(){
     setSyncStatus('☁️ Pulling from Notion...');
     const r = await fetch(API_URL);
     if (!r.ok) {
-      setSyncStatus('❌ Could not connect to API', 'error');
+      setSyncStatus(`❌ API Error (${r.status})`, 'error');
       return;
     }
     const d = await r.json();
