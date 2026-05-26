@@ -275,7 +275,10 @@ h1{margin:0;font-family:var(--font-display);font-style:italic;font-size:clamp(2.
 
   <main class="calendar" id="calendar"></main>
 
-  <div class="footer">Data → Notion · cached locally in <code>localStorage</code></div>
+  <div class="footer">
+    <div id="syncStatus" style="font-size:11px;margin-bottom:8px;opacity:0.8;">Checking sync...</div>
+    Data → Notion · cached locally in <code>localStorage</code>
+  </div>
 </div>
 
 <script>
@@ -293,7 +296,7 @@ const MONTHS = [
   {year:2026,month:11,name:'December'},
 ];
 const DAY_NAMES = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
-const todayKey = fmtDate(new Date());
+let todayKey = fmtDate(new Date());
 let saveTimer=null, notionTimer=null;
 
 // ── State ─────────────────────────────────────────────
@@ -316,26 +319,106 @@ function migrateMeasures(){
 }
 
 // ── Persistence ───────────────────────────────────────
-function loadLocal(){try{return JSON.parse(localStorage.getItem(STORAGE_KEY)||'{}');}catch{return{};}}
-function saveLocal(){clearTimeout(saveTimer);saveTimer=setTimeout(()=>localStorage.setItem(STORAGE_KEY,JSON.stringify(state)),80);}
-function setSyncStatus(s){ /* silent */ }
+function loadLocal(){
+  try {
+    const data = localStorage.getItem(STORAGE_KEY);
+    return data ? JSON.parse(data) : {};
+  } catch (e) {
+    console.error('Local storage error:', e);
+    return {};
+  }
+}
+
+function saveLocal(){
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(() => {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    } catch (e) {
+      console.error('Failed to save to localStorage:', e);
+      setSyncStatus('⚠️ Local storage full?');
+    }
+  }, 80);
+}
+
+function setSyncStatus(msg, type){
+  const el = document.getElementById('syncStatus');
+  if(!el) return;
+  el.textContent = msg;
+  el.style.color = type === 'error' ? '#d95f6b' : type === 'success' ? '#2e7d5b' : 'inherit';
+}
 
 async function pushToNotion(){
   clearTimeout(notionTimer);
-  notionTimer=setTimeout(async()=>{
-    try{await fetch(API_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(state)});}
-    catch{}
-  },1800);
+  setSyncStatus('⏳ Pending sync...');
+  notionTimer = setTimeout(async () => {
+    try {
+      setSyncStatus('☁️ Syncing to Notion...');
+      const r = await fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(state)
+      });
+      const d = await r.json();
+      if (d.ok) {
+        setSyncStatus('✅ Saved to Notion', 'success');
+      } else if (d._config && d._config.notion === false) {
+        setSyncStatus('ℹ️ Local-only mode (Notion not configured)');
+      } else {
+        setSyncStatus('❌ Sync failed: ' + (d.error || 'Unknown error'), 'error');
+      }
+    } catch (e) {
+      console.error('Push error:', e);
+      setSyncStatus('❌ Connection error', 'error');
+    }
+  }, 2500);
 }
+
 async function pullFromNotion(){
-  try{
-    const r=await fetch(API_URL);if(!r.ok)return;
-    const d=await r.json();if(!d||typeof d!=='object')return;
-    ['name','startKg','goalKg','startFat','goalFat'].forEach(k=>{if(d[k]!==undefined)state[k]=d[k];});
-    if(d.days)Object.assign(state.days,d.days);
-    if(d.measures){Object.assign(state.measures,d.measures);migrateMeasures();}
-    saveLocal();applyGoalsToUI();renderCalendar();renderCharts();renderProgress();
-  }catch{}
+  try {
+    setSyncStatus('☁️ Pulling from Notion...');
+    const r = await fetch(API_URL);
+    if (!r.ok) {
+      setSyncStatus('❌ Could not connect to API', 'error');
+      return;
+    }
+    const d = await r.json();
+    if (!d || typeof d !== 'object') return;
+
+    if (d._config && d._config.notion === false) {
+      setSyncStatus('ℹ️ Local-only mode');
+    } else {
+      setSyncStatus('✅ Sync active', 'success');
+    }
+
+    let changed = false;
+    ['name','startKg','goalKg','startFat','goalFat'].forEach(k => {
+      if (d[k] !== undefined && d[k] !== state[k]) {
+        state[k] = d[k];
+        changed = true;
+      }
+    });
+    if (d.days) {
+      Object.assign(state.days, d.days);
+      changed = true;
+    }
+    if (d.measures) {
+      Object.assign(state.measures, d.measures);
+      migrateMeasures();
+      changed = true;
+    }
+
+    if (changed) {
+      saveLocal();
+      applyGoalsToUI();
+      renderCalendar();
+      renderCharts();
+      renderProgress();
+    }
+  } catch (e) {
+    console.error('Pull error:', e);
+    setSyncStatus('❌ Pull failed', 'error');
+  }
 }
 function scheduleSave(){saveLocal();pushToNotion();}
 
