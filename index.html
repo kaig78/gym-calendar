@@ -330,16 +330,19 @@ function loadLocal(){
 }
 
 function saveLocal(){
-  clearTimeout(saveTimer);
-  saveTimer = setTimeout(() => {
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-    } catch (e) {
-      console.error('Failed to save to localStorage:', e);
-      setSyncStatus('⚠️ Local storage full?');
-    }
-  }, 80);
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  } catch (e) {
+    console.error('Failed to save to localStorage:', e);
+    setSyncStatus('⚠️ Local storage full?');
+  }
 }
+
+// Unsynced local changes are flagged, so a reload pushes them instead of
+// letting the older Notion copy overwrite them.
+const DIRTY_KEY = STORAGE_KEY + ':dirty';
+function setDirty(on){ try { on ? localStorage.setItem(DIRTY_KEY, '1') : localStorage.removeItem(DIRTY_KEY); } catch (e) {} }
+function isDirty(){ try { return localStorage.getItem(DIRTY_KEY) === '1'; } catch (e) { return false; } }
 
 function setSyncStatus(msg, type){
   const el = document.getElementById('syncStatus');
@@ -348,19 +351,26 @@ function setSyncStatus(msg, type){
   el.style.color = type === 'error' ? '#d95f6b' : type === 'success' ? '#2e7d5b' : 'inherit';
 }
 
-async function pushToNotion(){
+function pushToNotion(){
   clearTimeout(notionTimer);
   setSyncStatus('⏳ Pending sync...');
-  notionTimer = setTimeout(async () => {
+  notionTimer = setTimeout(pushNow, 800);
+}
+
+async function pushNow(){
+    clearTimeout(notionTimer); notionTimer = null;
+    const sent = JSON.stringify(state);
     try {
       setSyncStatus('☁️ Syncing to Notion...');
       const r = await fetch(API_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(state)
+        body: sent,
+        keepalive: true
       });
       const d = await r.json();
       if (d.ok) {
+        if (JSON.stringify(state) === sent) setDirty(false);
         setSyncStatus('✅ Saved to Notion', 'success');
       } else if (d._config && d._config.notion === false) {
         setSyncStatus('ℹ️ Local-only mode (Notion not configured)');
@@ -371,10 +381,19 @@ async function pushToNotion(){
       console.error('Push error:', e);
       setSyncStatus('❌ Connection error', 'error');
     }
-  }, 2500);
 }
 
+// Leaving or reloading the page: send pending changes immediately.
+function flushOnLeave(){ if (notionTimer || isDirty()) pushNow(); }
+document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') flushOnLeave(); });
+window.addEventListener('pagehide', flushOnLeave);
+
 async function pullFromNotion(){
+  if (isDirty()) {
+    // Local changes never reached Notion: keep them and upload them first.
+    setSyncStatus('☁️ Uploading unsaved changes...');
+    return pushNow();
+  }
   try {
     setSyncStatus('☁️ Pulling from Notion...');
     const r = await fetch(API_URL);
@@ -420,7 +439,7 @@ async function pullFromNotion(){
     setSyncStatus('❌ Pull failed', 'error');
   }
 }
-function scheduleSave(){saveLocal();pushToNotion();}
+function scheduleSave(){saveLocal();setDirty(true);pushToNotion();}
 
 // ── Remaining kg/fat ──────────────────────────────────
 function remKg(val){const g=parseFloat(state.goalKg),c=parseFloat(val);if(isNaN(g)||isNaN(c))return null;return Math.round((c-g)*10)/10;}
