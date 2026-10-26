@@ -5,11 +5,25 @@
 // Get the page ID from the URL: notion.so/Your-Page-Title-<PAGE_ID>
 // Strip dashes from the ID and set as NOTION_PAGE_ID.
 
+const crypto = require('crypto');
+
+// SHA-256 of the access key. The key itself only exists inside the
+// password-encrypted page, so only someone who unlocks it can read or write.
+const TOKEN_SHA256 = '91fb37f35c6d4eafc349f5a9b5406bc88a5b7dfea58f4db7913a2c867a77a1e1';
+
+function authorized(req) {
+  const token = String(req.headers['x-gym-token'] || '');
+  const got = crypto.createHash('sha256').update(token).digest();
+  return crypto.timingSafeEqual(got, Buffer.from(TOKEN_SHA256, 'hex'));
+}
+
 module.exports = async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, X-Gym-Token');
+  res.setHeader('Cache-Control', 'no-store');
   if (req.method === 'OPTIONS') return res.status(200).end();
+  if (!authorized(req)) return res.status(401).json({ error: 'Unauthorized' });
 
   const token  = process.env.NOTION_TOKEN || process.env.NOTION_SECRET;
   let pageId = process.env.NOTION_PAGE_ID;
