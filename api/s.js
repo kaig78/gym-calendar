@@ -15,7 +15,8 @@ module.exports = async (req, res) => {
   const origin = String(req.headers.referer || req.headers.origin || '');
   const token = process.env.GC_TOKEN;
   const path = String(q.p || '').slice(0, 500);
-  if (!token || !path || !ALLOWED.test(origin)) return res.status(204).end();
+  if (!token) { res.setHeader('X-Relay', 'no-token'); return res.status(204).end(); }
+  if (!path || !ALLOWED.test(origin)) { res.setHeader('X-Relay', 'skipped'); return res.status(204).end(); }
 
   const ip = String(req.headers['x-real-ip'] || req.headers['x-forwarded-for'] || '').split(',')[0].trim();
   const hit = {
@@ -28,11 +29,12 @@ module.exports = async (req, res) => {
     user_agent: String(req.headers['user-agent'] || ''),
   };
   try {
-    await fetch('https://kaig78.goatcounter.com/api/v0/count', {
+    const r = await fetch('https://kaig78.goatcounter.com/api/v0/count', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + token },
       body: JSON.stringify({ no_sessions: false, hits: [hit] }),
     });
-  } catch (e) { /* counting must never break the page */ }
+    res.setHeader('X-Relay', 'gc-' + r.status + (r.ok ? '' : ' ' + (await r.text()).slice(0, 150).replace(/[^\x20-\x7e]/g, ' ')));
+  } catch (e) { res.setHeader('X-Relay', 'error'); }
   res.status(204).end();
 };
